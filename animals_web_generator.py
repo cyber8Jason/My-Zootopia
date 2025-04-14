@@ -7,23 +7,42 @@ def load_data(file_path):
         return json.load(handle)
 
 
-def print_animal_info(animals_data):
+def generate_animal_string(animals_data):
     """ Prints selected information for each animal in the list """
+    output = ""
     for animal in animals_data:
         if "name" in animal:
-            print(f"Name: {animal['name']}")
+            output += f"Name: {animal['name']}\n"
         if "characteristics" in animal and "diet" in animal["characteristics"]:
-            print(f"Diet: {animal['characteristics']['diet']}")
+            output += f"Diet: {animal['characteristics']['diet']}\n"
         if "locations" in animal and animal["locations"]:
-            print(f"Location: {animal['locations'][0]}")
+            output += f"Location: {animal['locations'][0]}\n"
         if "characteristics" in animal and "type" in animal["characteristics"]:
-            print(f"Type: {animal['characteristics']['type']}")
-        print("." * 3)
+            output += f"Type: {animal['characteristics']['type']}\n"
+        output += "\n"
+    return output
+
+
+def load_template(file_path):
+    with open(file_path, "r") as file:
+        return file.read()
+
+
+def inject_animals_into_template(template, animals_string):
+    return template.replace("__REPLACE_ANIMALS_INFO__", animals_string)
+
+
+def save_html(output_string, filename="animals.html"):
+    with open(filename, "w") as file:
+        file.write(output_string)
 
 
 def main():
     animals_data = load_data("animals_data.json")
-    print_animal_info(animals_data)
+    animals_string = generate_animal_string(animals_data)
+    template = load_template("animals_template.html")
+    final_html = inject_animals_into_template(template, animals_string)
+    save_html(final_html)
 
 
 if __name__ == "__main__":
