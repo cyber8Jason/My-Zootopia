@@ -3,7 +3,7 @@ import json
 
 def load_data(file_path):
     """ Loads a JSON file """
-    with open(file_path, "r") as handle:
+    with open(file_path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
@@ -11,21 +11,24 @@ def generate_animal_string(animals_data):
     """ Prints selected information for each animal in the list """
     output = ""
     for animal in animals_data:
-        output += '<li class="cards__item">'
+        animal_name = animal['name'].replace("’", "'")
+        output += "<li class='cards__item'>\n"
         if "name" in animal:
-            output += f"Name: {animal['name']}<br/>\n"
+            output += f"\t<div class='card__title'>{animal_name}</div>\n"
+        output += "\t\t<p class='card__text'>\n"
         if "characteristics" in animal and "diet" in animal["characteristics"]:
-            output += f"Diet: {animal['characteristics']['diet']}<br/>\n"
+            output += f"\t\t\t<strong>Diet:</strong> {animal['characteristics']['diet']}<br/>\n"
         if "locations" in animal and animal["locations"]:
-            output += f"Location: {animal['locations'][0]}<br/>\n"
+            output += f"\t\t\t<strong>Location:</strong> {animal['locations'][0]}<br/>\n"
         if "characteristics" in animal and "type" in animal["characteristics"]:
-            output += f"Type: {animal['characteristics']['type']}<br/>\n"
+            output += f"\t\t\t<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
+        output += "\t\t</p>\n"
         output += "</li>\n"
     return output
 
 
 def load_template(file_path):
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         return file.read()
 
 
@@ -34,7 +37,7 @@ def inject_animals_into_template(template, animals_string):
 
 
 def save_html(output_string, filename="animals.html"):
-    with open(filename, "w") as file:
+    with open(filename, "w", encoding="utf-8") as file:
         file.write(output_string)
 
 
