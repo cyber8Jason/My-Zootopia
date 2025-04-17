@@ -11,15 +11,16 @@ def generate_animal_string(animals_data):
     """ Prints selected information for each animal in the list """
     output = ""
     for animal in animals_data:
+        output += '<li class="cards__item">'
         if "name" in animal:
-            output += f"Name: {animal['name']}\n"
+            output += f"Name: {animal['name']}<br/>\n"
         if "characteristics" in animal and "diet" in animal["characteristics"]:
-            output += f"Diet: {animal['characteristics']['diet']}\n"
+            output += f"Diet: {animal['characteristics']['diet']}<br/>\n"
         if "locations" in animal and animal["locations"]:
-            output += f"Location: {animal['locations'][0]}\n"
+            output += f"Location: {animal['locations'][0]}<br/>\n"
         if "characteristics" in animal and "type" in animal["characteristics"]:
-            output += f"Type: {animal['characteristics']['type']}\n"
-        output += "\n"
+            output += f"Type: {animal['characteristics']['type']}<br/>\n"
+        output += "</li>\n"
     return output
 
 
